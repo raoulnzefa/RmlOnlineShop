@@ -11,11 +11,22 @@ namespace RmlOnlineShop.Database.DatabaseContext
     public class ApplicationDbContext : IdentityDbContext<User>
     {
         public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderProduct> OrderProducts { get; set; }
+        public DbSet<Stock> Stocks { get; set; }
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> dbContextOptions)
             :base(dbContextOptions)
         {
 
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<OrderProduct>()
+                .HasKey(x=> new { x.ProductId, x.OrderId});
         }
     }
 }

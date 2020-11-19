@@ -12,6 +12,8 @@ using RmlOnlineShop.Database.DatabaseContext;
 using RmlOnlineShop.Data.Models;
 using RmlOnlineShop.Application.DataServices.Interfaces;
 using RmlOnlineShop.Application.DataServices;
+using RmlOnlineShop.Application.LogicServices.Interfaces;
+using RmlOnlineShop.Application.LogicServices;
 
 namespace RmlOnlineShop.Extensions
 {
@@ -36,6 +38,7 @@ namespace RmlOnlineShop.Extensions
         public static void AddCustomServices(this IServiceCollection services, IConfiguration config)
         {
             services.AddScoped<IProductManager, ProductManager>();
+            services.AddScoped<IAdminDashboardLogic, AdminDashboardLogic>();
         }
     }
 }

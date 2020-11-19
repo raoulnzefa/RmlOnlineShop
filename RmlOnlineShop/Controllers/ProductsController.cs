@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using RmlOnlineShop.Application.DataServices;
 using RmlOnlineShop.Application.DataServices.Interfaces;
 using RmlOnlineShop.Data.Models;
-using RmlOnlineShop.ViewModels;
+using RmlOnlineShop.Application.ViewModels;
 
 namespace RmlOnlineShop.Controllers
 {
@@ -50,8 +50,5 @@ namespace RmlOnlineShop.Controllers
             }
             return View(productViewModel);
         }
-
-
-
     }
 }

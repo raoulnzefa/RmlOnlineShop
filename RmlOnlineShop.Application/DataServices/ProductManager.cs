@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using RmlOnlineShop.Application.DataServices.Interfaces;
+using RmlOnlineShop.Application.ViewModels;
 using RmlOnlineShop.Data.Models;
 using RmlOnlineShop.Database.DatabaseContext;
 using System;
@@ -35,6 +36,57 @@ namespace RmlOnlineShop.Application.DataServices
             this.productLogger = logger;
         }
 
+
+        public async Task<Product> UpdateProductByProperties(int id, string name, string description, decimal price)
+        {
+            var product = applicationDbContext.Products.FirstOrDefault(x => x.Id == id);
+            if (product==null)
+            {
+                return null;
+            }
+
+            product.Name = name;
+            product.Description = description;
+            product.Price = price;
+
+            applicationDbContext.Products.Update(product);
+            await applicationDbContext.SaveChangesAsync();
+            productLogger.LogInformation($"{product.Name} has been updated!");
+            return product;
+        }
+
+        public async Task<Product> UpdateProductByViewModel(ProductViewModel productViewModel)
+        {
+            var product = applicationDbContext.Products.FirstOrDefault(x => x.Id == productViewModel.Id);
+            if (product == null)
+            {
+                return null;
+            }
+
+            product.Name = productViewModel.Name;
+            product.Description = productViewModel.Description;
+            product.Price = productViewModel.Price;
+
+            applicationDbContext.Products.Update(product);
+            await applicationDbContext.SaveChangesAsync();
+            productLogger.LogInformation($"{product.Name} has been updated!");
+            return product;
+        }
+        public async Task<Product> DeleteProduct(int id)
+        {
+            var product = applicationDbContext.Products.FirstOrDefault(x => x.Id == id);
+
+            if (product == null)
+            {
+                return null;
+            }
+
+            applicationDbContext.Products.Remove(product);
+            await applicationDbContext.SaveChangesAsync();
+            productLogger.LogInformation($"Deleted product: {product.Name}");
+            return product;
+        }
+
         public async Task<Product> CreateProduct(Product product)
         {
             if (product == null)
@@ -45,6 +97,26 @@ namespace RmlOnlineShop.Application.DataServices
             productLogger.LogInformation($"Created new product: {product.Name}");
             applicationDbContext.Products.Add(product);
             await applicationDbContext.SaveChangesAsync();
+            return product;
+        }
+
+        public async Task<Product> CreateProductByViewModel(ProductViewModel productViewModel)
+        {
+            if (productViewModel == null)
+            {
+                return null;
+            }
+
+            var product = new Product {
+                Name= productViewModel.Name,
+                Description=productViewModel.Description,
+                Price=productViewModel.Price
+            };
+
+       
+            applicationDbContext.Products.Add(product);
+            await applicationDbContext.SaveChangesAsync();
+            productLogger.LogInformation($"Created new product: {product.Name}");
             return product;
         }
 
@@ -71,6 +143,25 @@ namespace RmlOnlineShop.Application.DataServices
         public List<Product> GetAllProducts() 
         {
             return applicationDbContext.Products.ToList();
+        }
+
+        public Product GetProductById(int id)
+        {
+            return applicationDbContext.Products.FirstOrDefault(x=>x.Id==id);
+        }
+
+
+        public IEnumerable<AllProductsViewModel> GetAllProductsAsViewModel()
+        {
+            var products = applicationDbContext.Products.AsEnumerable().Select(x => new AllProductsViewModel 
+            {
+                Id = x.Id,
+                Name=x.Name,
+                Description=x.Description,
+                Price=x.Price
+            });
+
+            return products;
         }
 
     }

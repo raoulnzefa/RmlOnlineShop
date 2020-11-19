@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RmlOnlineShop.ViewModels
+namespace RmlOnlineShop.Application.ViewModels
 {
     public class CreateProductViewModel
     {
