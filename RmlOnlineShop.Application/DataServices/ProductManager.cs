@@ -72,19 +72,19 @@ namespace RmlOnlineShop.Application.DataServices
             productLogger.LogInformation($"{product.Name} has been updated!");
             return product;
         }
-        public async Task<Product> DeleteProduct(int id)
+        public async Task<bool> DeleteProduct(int id)
         {
             var product = applicationDbContext.Products.FirstOrDefault(x => x.Id == id);
 
             if (product == null)
             {
-                return null;
+                return false;
             }
 
             applicationDbContext.Products.Remove(product);
             await applicationDbContext.SaveChangesAsync();
             productLogger.LogInformation($"Deleted product: {product.Name}");
-            return product;
+            return true;
         }
 
         public async Task<Product> CreateProduct(Product product)

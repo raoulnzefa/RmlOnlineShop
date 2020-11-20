@@ -32,6 +32,7 @@ namespace RmlOnlineShop.Extensions
             services.AddIdentity<User, IdentityRole>()
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
 
         }
 

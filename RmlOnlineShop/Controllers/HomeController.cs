@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RmlOnlineShop.Models;
-using RmlOnlineShop.ViewModels;
+using RmlOnlineShop.Application.ViewModels;
 
 namespace RmlOnlineShop.Controllers
 {

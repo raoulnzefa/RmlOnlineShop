@@ -41,33 +41,33 @@ namespace RmlOnlineShop.Controllers
             return Ok(productManager.GetProductById(id));
         }
         [HttpDelete]
-        public IActionResult DeleteProduct(int id)
+        public async Task<IActionResult> DeleteProduct(int id)
         {
             if (id < 0)
             {
                 return BadRequest();
             }
-            return Ok(productManager.DeleteProduct(id));
+            return Ok(await productManager.DeleteProduct(id));
         }
 
         [HttpPut]
-        public IActionResult UpdateProduct(ProductViewModel productViewModel)
+        public async Task<IActionResult> UpdateProduct([FromBody] ProductViewModel productViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            return Ok(productManager.UpdateProductByViewModel(productViewModel));
+            return Ok(await productManager.UpdateProductByViewModel(productViewModel));
         }
 
         [HttpPost]
-        public IActionResult CreateProduct(ProductViewModel productViewModel)
+        public async Task<IActionResult> CreateProduct([FromBody]ProductViewModel productViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            return Ok(productManager.CreateProductByViewModel(productViewModel));
+            return Ok(await productManager.CreateProductByViewModel(productViewModel));
         }
 
     }

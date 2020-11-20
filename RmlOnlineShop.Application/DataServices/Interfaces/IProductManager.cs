@@ -14,7 +14,7 @@ namespace RmlOnlineShop.Application.DataServices.Interfaces
         List<Product> GetAllProducts();
         IEnumerable<AllProductsViewModel> GetAllProductsAsViewModel();
         Product GetProductById(int id);
-        Task<Product> DeleteProduct(int id);
+        Task<bool> DeleteProduct(int id);
         Task<Product> UpdateProductByViewModel(ProductViewModel productViewModel);
         Task<Product> UpdateProductByProperties(int id, string name, string description, decimal price);
         Task<Product> CreateProductByViewModel(ProductViewModel productViewModel);
