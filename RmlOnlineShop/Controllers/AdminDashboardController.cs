@@ -26,7 +26,7 @@ namespace RmlOnlineShop.Controllers
         }
 
 
-        #region REST_ACTIONS
+        #region REST_ACTIONS_
 
         [HttpGet]
         public IActionResult GetAllProducts()
