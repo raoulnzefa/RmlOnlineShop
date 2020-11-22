@@ -4,58 +4,71 @@
 }
 
 <div id="app" class="container">
-    <div class="columns">
-
-    </div>
-
+    <h1 class="ml-4">
+        Product Managment
+    </h1>
     <div>
-        <input v-model="productModel.name" />
-        <input v-model="productModel.description" />
-        <input v-model.number="productModel.price" />
-        <br />
-        <div class="btn-group mt-2 mb-2">
-            <button class="btn btn-outline-info" @@click="createProduct">Create Product</button>
-            <button class="btn btn-outline-info" @@click="updateProduct" v-if="EditMode">Update Product</button>
+        <div class="container" v-if="EditMode">
+            <label for="ProductName">Name</label>
+            <div class="input-group mb-1">
+                <input id="ProductName" v-model="productModel.name" type="text" class="form-control" placeholder="Name" aria-label="Name" />
+            </div>
+            <label for="ProductDescription">Description</label>
+            <div class="input-group mb-1">
+                <textarea class="form-control" id="ProductDescription" v-model="productModel.description"></textarea>
+            </div>
+            <label for="ProductPrice">Price</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="priceAddon">RUB</span>
+                </div>
+                <input id="ProductPrice" class="form-control" v-model.number="productModel.price" aria-describedby="priceAddon" />
+            </div>
+            <div class="btn-group mt-3">
+                <button class="btn btn-outline-info" @@click="updateProduct" v-if="updateMode">Update Product</button>
+                <button class="btn btn-outline-info" @@click="createProduct" v-else>Create Product</button>
+                <button class="btn btn-outline-warning" @@click="toogleEdit">Cancel</button>
+            </div>
         </div>
-    </div>
-    <div class="container">
-        <table class="table" v-if="getProductsButtonPressed">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(product, index) in products">
-                    <td>
-                        {{product.name}}
-                    </td>
-                    <td>
-                        {{product.description}}
-                    </td>
-                    <td>
-                        {{product.price}}
-                    </td>
-                    <td>
-                        <button @@click="editProduct(product, index)" class="btn btn-info">Edit</button>
-                    </td>
-                    <td>
-                        <button @@click="deleteProduct(product.id, index)" class="btn btn-danger">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="container" v-else>
+            <button class="btn btn-info mb-2" @@click="toogleEdit">Add a new Product</button>
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(product, index) in products">
+                        <td>
+                            {{product.name}}
+                        </td>
+                        <td>
+                            {{product.description}}
+                        </td>
+                        <td>
+                            {{product.price}}
+                        </td>
+                        <td>
+                            <button @@click="editProduct(product, index)" class="btn btn-info">Edit</button>
+                        </td>
+                        <td>
+                            <button @@click="deleteProduct(product.id, index)" class="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
 
 @section Scripts{
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    @await Html.PartialAsync("_VueAxiosScriptsPartial")
     <script src="~/js/Admin/main.js"></script>
 }
 

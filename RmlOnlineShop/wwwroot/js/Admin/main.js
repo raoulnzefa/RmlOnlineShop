@@ -5,7 +5,7 @@ var app = new Vue(
         el: '#app',
         data: {
             loading: false,
-            getProductsButtonPressed: false,
+            
             productModel: {
                 id: 0,
                 name: "Product Name",
@@ -13,6 +13,7 @@ var app = new Vue(
                 price: 10000
             },
             EditMode: false,
+            updateMode: false,
             products: [],
             productIndex: 0,
         },
@@ -22,14 +23,16 @@ var app = new Vue(
         methods: {
             updateProduct() {
                 this.loading = true;
-
+                
                 axios.put("AdminDashboard/UpdateProduct", this.productModel)
                     .then(res => {
                         this.EditMode = false;
+                        this.updateMode = false;
                         this.products.splice(this.productIndex, 1, res.data)
                         console.log(res);
                     })
                     .catch(err => {
+                        alert("Failed to update!");
                         console.log(err);
                     })
                     .then(() => {
@@ -39,6 +42,7 @@ var app = new Vue(
             editProduct(product, index) {
                 this.productIndex = index;
                 this.EditMode = true;
+                this.updateMode = true;
                 this.productModel = {
                     id: product.id,
                     name: product.name,
@@ -54,6 +58,7 @@ var app = new Vue(
                         console.log(res);
                     })
                     .catch(err => {
+                        alert("Failed to delete!");
                         console.log(err);
                     })
                     .then(() => {
@@ -64,9 +69,8 @@ var app = new Vue(
             getProduct(id) {
                 this.loading = true;
 
-                axios.get("AdminDashboard/GetProductById" + id)
+                axios.get("AdminDashboard/GetProductById/" + id)
                     .then(res => {
-                        
                         console.log(res);
                     })
                     .catch(err => {
@@ -81,7 +85,6 @@ var app = new Vue(
                 axios.get("AdminDashboard/GetAllProducts")
                     .then(res => {
                         this.products = res.data;
-                        this.getProductsButtonPressed = true;
                         console.log(res);
                     })
                     .catch(err => {
@@ -99,13 +102,21 @@ var app = new Vue(
                         console.log(res);
                     })
                     .catch(err => {
+                        alert("Failed to create a new product!");
                         console.log(err);
                     })
                     .then(() => {
+                        this.EditMode = false;
                         this.loading = false;
                     });
             },
             toogleEdit() {
+                this.productModel = {
+                    id: 0,
+                    name: "",
+                    description: "",
+                    price: 0,
+                };
                 this.EditMode = !this.EditMode;
             }
         },

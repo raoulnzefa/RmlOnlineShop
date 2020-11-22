@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>@ViewData["Title"] - RmlOnlineShop</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <!--CUSTOM CSS SETUP-->
+    <!-- Custom fonts for this template-->
+    <link href="~/sbadmin2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="~/sbadmin2/css/sb-admin-2.min.css" rel="stylesheet">
+    <!--CUSTOM CSS SETUP ENDS-->
+</head>
+<body id="page-top">
+
+    <div id="wrapper">
+        @await Component.InvokeAsync("AdminDashboardSideBar")
+
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <div id="content">
+                @await Component.InvokeAsync("AdminDashboardNavBar")
+                @RenderBody()
+            </div>
+
+            @await Component.InvokeAsync("AdminDashboardFooter")
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="~/sbadmin2/~/sbadmin2/vendor/jquery/jquery.min.js"></script>
+    <script src="~/sbadmin2/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="~/sbadmin2/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="~/sbadmin2/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="~/sbadmin2/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="~/sbadmin2/js/demo/chart-area-demo.js"></script>
+    <script src="~/sbadmin2/js/demo/chart-pie-demo.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

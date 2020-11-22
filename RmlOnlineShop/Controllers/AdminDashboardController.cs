@@ -25,6 +25,9 @@ namespace RmlOnlineShop.Controllers
             return View();
         }
 
+
+        #region REST_ACTIONS
+
         [HttpGet]
         public IActionResult GetAllProducts()
         {
@@ -69,6 +72,6 @@ namespace RmlOnlineShop.Controllers
             }
             return Ok(await productManager.CreateProductByViewModel(productViewModel));
         }
-
+        #endregion
     }
 }
