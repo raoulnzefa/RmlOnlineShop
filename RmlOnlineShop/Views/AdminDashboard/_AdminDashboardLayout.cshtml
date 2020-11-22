@@ -56,6 +56,7 @@
     <script src="~/sbadmin2/js/demo/chart-area-demo.js"></script>
     <script src="~/sbadmin2/js/demo/chart-pie-demo.js"></script>
 
+    @await Html.PartialAsync("_VueAxiosScriptsPartial")
     @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -33,22 +33,8 @@ namespace RmlOnlineShop.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult CreateProduct() => View();
+     
 
-        [HttpPost]
-        public async Task<IActionResult> CreateProduct(CreateProductViewModel productViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-               await productManager.CreateProductByProperties(
-                   productViewModel.Name,
-                   productViewModel.Description,
-                   productViewModel.Price
-                   );
-                return RedirectToAction("Index", "Products");
-            }
-            return View(productViewModel);
-        }
+        
     }
 }

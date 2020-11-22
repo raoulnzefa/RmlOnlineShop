@@ -39,7 +39,11 @@ namespace RmlOnlineShop.Extensions
         public static void AddCustomServices(this IServiceCollection services, IConfiguration config)
         {
             services.AddScoped<IProductManager, ProductManager>();
+            services.AddScoped<IStockManager, StockManager>();
+
+
             services.AddScoped<IAdminDashboardLogic, AdminDashboardLogic>();
+
         }
     }
 }

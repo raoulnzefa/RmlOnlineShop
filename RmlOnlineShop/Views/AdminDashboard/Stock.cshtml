@@ -1,0 +1,122 @@
+﻿
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<div id="stockComponent" class="container">
+    <h1 class="ml-4">
+        Stock Managment
+    </h1>
+    <div class="container">
+        <div v-if="editStockMode">
+            <label for="StockDescription">Stock Description</label>
+            <div class="input-group mb-1">
+                <textarea id="StockDescription" v-model="stockModel.description" type="text" class="form-control" placeholder="Stock Description" aria-label="Stock Description"></textarea>
+            </div>
+
+            <label for="StockQuantity">Stock Quantity</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="QuantityAddon">Quantity</span>
+                </div>
+                <input type="number" id="StockQuantity" class="form-control" v-model.number="stockModel.quantity" aria-describedby="QuantityAddon" />
+            </div>
+            <div class="btn-group mt-3">
+                @*<button class="btn btn-outline-info" @@click="updateProduct" v-if="updateMode">Update Product</button>*@
+                <button class="btn btn-outline-info" @@click="updateStock">Save Changes</button>
+                <button class="btn btn-outline-warning" @@click="cancelUpdateStock">Cancel</button>
+            </div>
+        </div>
+        <div v-if="editNewStock">
+            <label for="StockDescription">Stock Description</label>
+            <div class="input-group mb-1">
+                <textarea id="StockDescription" v-model="stockModel.description" type="text" class="form-control" placeholder="Stock Description" aria-label="Stock Description" ></textarea>
+            </div>
+            
+            <label for="StockQuantity">Stock Quantity</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="QuantityAddon">Quantity</span>
+                </div>
+                <input type="number" id="StockQuantity" class="form-control" v-model.number="stockModel.quantity" aria-describedby="QuantityAddon" />
+            </div>
+            <div class="btn-group mt-3">
+                @*<button class="btn btn-outline-info" @@click="updateProduct" v-if="updateMode">Update Product</button>*@
+                <button class="btn btn-outline-info" @@click="createStock(selectedProduct.id)">Create Stock</button>
+                <button class="btn btn-outline-warning" @@click="toogleEditingNewStock">Cancel</button>
+            </div>
+        </div>
+        <div v-if="editMode && !editNewStock && !editStockMode">
+            <h3>Stocks for the product {{selectedProduct.name}}</h3>
+            <div class="btn-group mb-2 mt-2">
+                <button class="btn btn-info mb-2" @@click="toogleEditingNewStock">Add a new Stock</button>
+                <button class="btn btn-info mb-2" @@click="toogleEdit">Return</button>
+            </div>
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>№</th>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(stock, index) in selectedProduct.stocksViewModel">
+                        <td>
+                            {{index}}
+                        </td>
+                        <td>
+                            {{stock.description}}
+                        </td>
+                        <td>
+                            {{stock.quantity}}
+                        </td>
+                        <td>
+                            <button @@click="deleteStock(stock.id, index)" class="btn btn-danger">Delete</button>
+                        </td>
+                        <td>
+                            <button @@click="toogleUpdateStock(stock,index)" class="btn btn-info">Edit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div v-else-if="!editNewStock && !editStockMode">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr v-for="(product, index) in products">
+                        <td>
+                            {{product.name}}
+                        </td>
+                        <td>
+                            {{product.description}}
+                        </td>
+                        <td>
+                            {{product.price}}
+                        </td>
+                        <td>
+                            <button @@click="manageProduct(product)" class="btn btn-info">Edit Stocks</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts{
+    <script src="~/js/Admin/stock.js"></script>
+}
