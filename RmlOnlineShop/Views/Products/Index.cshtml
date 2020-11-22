@@ -4,9 +4,29 @@
 
 @model List<RmlOnlineShop.Data.Models.Product>
 
-<div class="container">
+<div class="container pt-5 ml-5 mt-5">
     <div class="row">
-        <div class="col-12 mt-3">
+        @foreach (var product in Model)
+        {
+        <div class="col-3 shadow-sm rounded mx-3 my-3" style="height: 300px;">
+            <h5 class="mt-5">Name</h5>
+            <p>
+                @product.Name
+
+            </p>
+            <h5>Price</h5>
+            <p>
+                @product.Price
+
+            </p>
+            <hr />
+            <p>
+                <a class="btn btn-info" asp-action="Product" asp-controller="Products" asp-route-id="@product.Id">Check</a>
+            </p>
+        </div>
+        }
+
+        @*<div class="col-12 mt-3">
             <table class="table">
                 @foreach (var product in Model)
                 {
@@ -16,6 +36,6 @@
                 </tr>
                 }
             </table>
-        </div>
+        </div>*@
     </div>
 </div>

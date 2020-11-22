@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RmlOnlineShop.Application.DataServices.Interfaces;
 using RmlOnlineShop.Application.ViewModels;
 using RmlOnlineShop.Data.Models;
@@ -150,6 +151,31 @@ namespace RmlOnlineShop.Application.DataServices
             return applicationDbContext.Products.FirstOrDefault(x=>x.Id==id);
         }
 
+        public ProductWithStocksViewModel GetProductViewModelById(int id)
+        {
+            if (id<0)
+            {
+                return null;
+            }
+
+            return applicationDbContext.Products
+                .Include(x=>x.Stock)
+                .Select(x=> new ProductWithStocksViewModel
+                {
+                    Description=x.Description,
+                    Name=x.Name,
+                    Id=x.Id,
+                    Price=x.Price,
+                    StocksViewModel = x.Stock.Select(x=> new StockViewModel
+                    {
+                        Description=x.Description,
+                        Id=x.Id,
+                        ProductId=x.ProductId,
+                        Quantity=x.Quantity
+                    })
+                })
+                .FirstOrDefault(x => x.Id == id);
+        }
 
         public IEnumerable<AllProductsViewModel> GetAllProductsAsViewModel()
         {

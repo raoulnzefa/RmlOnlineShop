@@ -18,6 +18,7 @@ namespace RmlOnlineShop.Application.DataServices.Interfaces
         Task<Product> UpdateProductByViewModel(ProductViewModel productViewModel);
         Task<Product> UpdateProductByProperties(int id, string name, string description, decimal price);
         Task<Product> CreateProductByViewModel(ProductViewModel productViewModel);
+        ProductWithStocksViewModel GetProductViewModelById(int id);
 
     }
 }

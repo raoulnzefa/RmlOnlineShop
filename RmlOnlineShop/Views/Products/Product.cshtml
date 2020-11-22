@@ -1,0 +1,15 @@
+﻿@model ProductWithStocksViewModel
+
+@{ 
+    ViewData["Title"] = $"{Model.Name}";
+}
+
+<div class="container mt-5 py-2 px-4 shadow-sm rounded">
+    <h4>Name</h4>
+    <p>@Model.Name</p>
+    <h4>Description</h4>
+    <p>@Model.Description</p>
+    <h4>Price</h4>
+    <p>@Model.Price</p>
+</div>
+

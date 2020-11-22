@@ -32,7 +32,13 @@ namespace RmlOnlineShop.Controllers
             return View(productManager.GetAllProducts());
         }
 
+        [HttpGet]
+        public IActionResult Product(int id)
+        {
+            var product = productManager.GetProductViewModelById(id);
 
+            return View(product);
+        }
      
 
         
