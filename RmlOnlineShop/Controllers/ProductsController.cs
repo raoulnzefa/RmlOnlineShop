@@ -30,7 +30,7 @@ namespace RmlOnlineShop.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View(productManager.GetAllProducts());
+            return View(productManager.GetAllProductsAsViewModel());
         }
 
         [HttpGet]

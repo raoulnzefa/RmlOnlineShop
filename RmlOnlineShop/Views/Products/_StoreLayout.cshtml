@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - RmlOnlineShop</title>
+
+    
+    <!--CUSTOM CSS SETUP-->
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="~/electro/css/bootstrap.min.css" />
+
+
+    <!-- Slick -->
+    <link type="text/css" rel="stylesheet" href="~/electro/css/slick.css" />
+    <link type="text/css" rel="stylesheet" href="~/electro/css/slick-theme.css" />
+
+    <!-- nouislider -->
+    <link type="text/css" rel="stylesheet" href="~/electro/css/nouislider.min.css" />
+
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="~/electro/css/font-awesome.min.css">
+
+    <!-- Custom stlylesheet -->
+    <link type="text/css" rel="stylesheet" href="~/electro/css/style.css" />
+    <!--CUSTOM CSS SETUP ENDS-->
+</head>
+<body>
+    <header>
+        <!-- TOP HEADER -->
+        <div id="top-header">
+            <div class="container">
+                <ul class="header-links pull-right">
+                    <li><a asp-action="Index" asp-controller="AdminDashboard"><i class="fa fa-key"></i> Admin Dashboard</a></li>
+                    <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+                    <li><a asp-action="Index" asp-controller="Home"><i class="fa fa-backward"></i> Home</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- /TOP HEADER -->
+        <!-- MAIN HEADER -->
+        <div id="header">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+                    <!-- LOGO -->
+                    <div class="col-md-3">
+                        <div class="header-logo">
+                            <a asp-action="Index" class="logo">
+                                <img src="~/electro/img/logo.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- /LOGO -->
+                    <!-- SEARCH BAR -->
+                    <div class="col-md-6">
+                        <div class="header-search">
+                            <form>
+                                <input class="input" placeholder="Find Products...">
+                                <button class="search-btn">SEARCH</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /SEARCH BAR -->
+                    <!-- ACCOUNT -->
+                    <div class="col-md-3 clearfix">
+                        <div class="header-ctn">
+                            <!-- Cart -->
+                            <div>
+                                <a asp-action="Cart" asp-controller="Products">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span>My Cart</span>
+                                    <div class="qty">3</div>
+                                </a>
+                            </div>
+                            <!-- /Cart -->
+                            <!-- Menu Toogle -->
+                            <div class="menu-toggle">
+                                <a href="#">
+                                    <i class="fa fa-bars"></i>
+                                    <span>Menu</span>
+                                </a>
+                            </div>
+                            <!-- /Menu Toogle -->
+                        </div>
+                    </div>
+                    <!-- /ACCOUNT -->
+                </div>
+                <!-- row -->
+            </div>
+            <!-- container -->
+        </div>
+        <!-- /MAIN HEADER -->
+    </header>
+
+    <!-- NAVIGATION -->
+    @*@await Component.InvokeAsync("StoreNavigation")*@
+    <!-- /NAVIGATION -->
+    <!--SECTION-->
+
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <!--/SECTION-->
+    <!-- FOOTER -->
+    @await Component.InvokeAsync("StoreFooter")
+    <!-- /FOOTER -->
+    <!-- jQuery Plugins -->
+    <script src="~/electro/js/jquery.min.js"></script>
+    <script src="~/electro/js/bootstrap.min.js"></script>
+    <script src="~/electro/js/slick.min.js"></script>
+    <script src="~/electro/js/nouislider.min.js"></script>
+    <script src="~/electro/js/jquery.zoom.min.js"></script>
+    <script src="~/electro/js/main.js"></script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
