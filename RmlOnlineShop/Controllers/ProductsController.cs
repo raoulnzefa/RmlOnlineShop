@@ -8,6 +8,7 @@ using RmlOnlineShop.Application.DataServices;
 using RmlOnlineShop.Application.DataServices.Interfaces;
 using RmlOnlineShop.Data.Models;
 using RmlOnlineShop.Application.ViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace RmlOnlineShop.Controllers
 {
@@ -36,11 +37,26 @@ namespace RmlOnlineShop.Controllers
         public IActionResult Product(int id)
         {
             var product = productManager.GetProductViewModelById(id);
-
+            if (product == null)
+            {
+                return NotFound();
+            }
             return View(product);
         }
-     
 
-        
+        [HttpPost]
+        public IActionResult ProductPost(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var current_id = HttpContext.Session.GetString("id");
+
+            HttpContext.Session.SetString("id", id.ToString());
+            
+            return RedirectToAction("Index", "Products");
+        }
+
     }
 }

@@ -11,5 +11,12 @@
     <p>@Model.Description</p>
     <h4>Price</h4>
     <p>@Model.Price</p>
+    <form class="form-group" asp-action="ProductPost" asp-controller="Products">
+       <input asp-for="Id" hidden readonly/>
+        <select asp-items="new SelectList(Model.StocksViewModel)">
+            <option value="@Model.StocksViewModel"></option>
+        </select>
+        <input type="submit" class="btn btn-info" />
+    </form>
 </div>
 
