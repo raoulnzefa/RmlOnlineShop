@@ -9,6 +9,10 @@ using RmlOnlineShop.Application.DataServices.Interfaces;
 using RmlOnlineShop.Data.Models;
 using RmlOnlineShop.Application.ViewModels;
 using Microsoft.AspNetCore.Http;
+using RmlOnlineShop.Application.SessionModels;
+using RmlOnlineShop.Extensions;
+using RmlOnlineShop.Application.LogicServices.Interfaces;
+using Newtonsoft.Json;
 
 namespace RmlOnlineShop.Controllers
 {
@@ -16,15 +20,18 @@ namespace RmlOnlineShop.Controllers
     {
         private readonly ILogger<ProductsController> loggerProductsController;
         private readonly IProductManager productManager;
+        private readonly ICartLogic cartLogic;
 
         public ProductsController
             (
                 ILogger<ProductsController> loggerProductsController,
-                IProductManager productManager
+                IProductManager productManager,
+                ICartLogic cartLogic
             )
         {
             this.loggerProductsController = loggerProductsController;
             this.productManager = productManager;
+            this.cartLogic = cartLogic;
         }
 
         [HttpGet]
@@ -45,17 +52,29 @@ namespace RmlOnlineShop.Controllers
         }
 
         [HttpPost]
-        public IActionResult ProductPost(int id)
+        public IActionResult ProductToCart(ProductCart productCart)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            var current_id = HttpContext.Session.GetString("id");
 
-            HttpContext.Session.SetString("id", id.ToString());
-            
+            var res = cartLogic.AddToCart(HttpContext.Session, productCart);
+            if (!res)
+            {
+                return BadRequest();
+            }
+
             return RedirectToAction("Index", "Products");
+        }
+
+        [HttpGet]
+        public IActionResult Cart()
+        {
+            var productsInCartViewModel = cartLogic.GetProductInCartAsViewModel(HttpContext.Session);
+
+            
+            return View(productsInCartViewModel);
         }
 
     }

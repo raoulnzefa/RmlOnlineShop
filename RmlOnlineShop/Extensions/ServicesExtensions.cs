@@ -34,6 +34,13 @@ namespace RmlOnlineShop.Extensions
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(60.0);
+                options.Cookie.Name = "UserSession";
+                options.Cookie.MaxAge = TimeSpan.FromMinutes(60.0);
+            });
+
         }
 
         public static void AddCustomServices(this IServiceCollection services, IConfiguration config)
@@ -43,6 +50,7 @@ namespace RmlOnlineShop.Extensions
 
 
             services.AddScoped<IAdminDashboardLogic, AdminDashboardLogic>();
+            services.AddScoped<ICartLogic, CartLogic>();
 
         }
     }

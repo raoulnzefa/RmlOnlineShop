@@ -16,6 +16,8 @@ namespace RmlOnlineShop.Application.ViewModels
         public string Description { get; set; }
         [Required, DataType(DataType.Currency)]
         public decimal Price { get; set; }
+        public int StockId { get; set; }
+        public int Quantity { get; set; }
         public IEnumerable<StockViewModel> StocksViewModel { get; set; }
     }
 }

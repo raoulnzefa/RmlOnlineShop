@@ -65,38 +65,37 @@
             <a class="review-link" href="#">10 Review(s) | Add your review</a>
         </div>
         <div>
-            <h3 class="product-price">RUB @Model.Price <del class="product-old-price">RUB @Model.Price </del></h3>
+            <h3 class="product-price">RUB @Model.Price.ToString("F0") <del class="product-old-price">RUB @Model.Price.ToString("F0") </del></h3>
             <span class="product-available">In Stock</span>
         </div>
         <p>@Model.Description</p>
 
-        <div class="product-options">
-            <label>
-                Size
-                <select class="input-select">
-                    <option value="0">X</option>
-                </select>
-            </label>
-            <label>
-                Color
-                <select class="input-select">
-                    <option value="0">Red</option>
-                </select>
-            </label>
-        </div>
-
-        <div class="add-to-cart">
-            <div class="qty-label">
-                Quantity
-                <div class="input-number">
-                    <input type="number" value="0">
-                    <span class="qty-up">+</span>
-                    <span class="qty-down">-</span>
-                </div>
+        <form asp-action="ProductToCart">
+            <div class="product-options">
+                <label>
+                    Options
+                    <select class="input-select" asp-for="StockId">
+                        @foreach (var stock in Model.StocksViewModel)
+                        {
+                            <option value="@stock.Id">@stock.Description</option>
+                        }
+                    </select>
+                </label>
             </div>
-            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-        </div>
 
+            <div class="add-to-cart">
+                <div class="qty-label">
+                    Quantity
+                    <div class="input-number">
+                        <input type="number" value="0" asp-for="Quantity">
+                        <span class="qty-up">+</span>
+                        <span class="qty-down">-</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+            </div>
+        </form>
 
        
     </div>

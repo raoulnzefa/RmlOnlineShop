@@ -191,7 +191,7 @@
                     <div class="product-body">
                         <p class="product-category">Category</p>
                         <h3 class="product-name"><a asp-action="Product" asp-controller="Products" asp-route-id="@product.Id">@product.Name</a></h3>
-                        <h4 class="product-price">RUB @product.Price <del class="product-old-price">RUB@product.Price</del></h4>
+                        <h4 class="product-price">RUB @product.Price.ToString("F0") <del class="product-old-price">RUB @product.Price.ToString("F0")</del></h4>
                         <div class="product-rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>

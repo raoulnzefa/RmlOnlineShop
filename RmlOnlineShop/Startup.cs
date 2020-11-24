@@ -27,12 +27,7 @@ namespace RmlOnlineShop
             services.AddDefaultServiceSetup(Configuration);
             services.AddCustomServices(Configuration);
             
-            services.AddSession(options=> 
-            { 
-                options.IdleTimeout = TimeSpan.FromMinutes(60.0);
-                options.Cookie.Name = "UserSession";
-                options.Cookie.MaxAge = TimeSpan.FromMinutes(60.0);
-            });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
