@@ -21,17 +21,20 @@ namespace RmlOnlineShop.Controllers
         private readonly ILogger<ProductsController> loggerProductsController;
         private readonly IProductManager productManager;
         private readonly ICartLogic cartLogic;
+        private readonly IClientLogic clientLogic;
 
         public ProductsController
             (
                 ILogger<ProductsController> loggerProductsController,
                 IProductManager productManager,
-                ICartLogic cartLogic
+                ICartLogic cartLogic,
+                IClientLogic clientLogic
             )
         {
             this.loggerProductsController = loggerProductsController;
             this.productManager = productManager;
             this.cartLogic = cartLogic;
+            this.clientLogic = clientLogic;
         }
 
         [HttpGet]
@@ -76,6 +79,43 @@ namespace RmlOnlineShop.Controllers
             
             return View(productsInCartViewModel);
         }
+
+
+        [HttpGet]
+        public IActionResult ClientCheckout()
+        {
+            var clientOrderInfo = clientLogic.GetClientOrderInfo(HttpContext.Session);
+            
+
+            return View(clientOrderInfo);
+        }
+
+        [HttpPost]
+        public IActionResult ClientCheckout(ClientOrderInformatiomViewModel clientOrderInformatiomViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            clientLogic.SaveClientOrderInfo(HttpContext.Session,clientOrderInformatiomViewModel);
+           
+
+            return RedirectToAction("Payment");
+        }
+
+        public IActionResult Payment()
+        {
+            var clientOrderInfo = clientLogic.GetClientOrderInfo(HttpContext.Session);
+            if (clientOrderInfo==null)
+            {
+                return RedirectToAction("ClientCheckout");
+            }
+
+
+            return View();
+        }
+
 
     }
 }

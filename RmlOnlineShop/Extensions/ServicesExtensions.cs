@@ -51,6 +51,7 @@ namespace RmlOnlineShop.Extensions
 
             services.AddScoped<IAdminDashboardLogic, AdminDashboardLogic>();
             services.AddScoped<ICartLogic, CartLogic>();
+            services.AddScoped<IClientLogic, ClientLogic>();
 
         }
     }

@@ -88,10 +88,10 @@ namespace RmlOnlineShop.Application.LogicServices
                     ProductDescription = x.Product.Description,
                     ProductName = x.Product.Name,
                     ProductPrice = x.Product.Price,
-                    Quantity = productsCartList.FirstOrDefault(stock => stock.StockId==x.Id).Quantity,
+                    Quantity = productsCartList.FirstOrDefault(stock => stock.StockId == x.Id).Quantity,
                     StockDescription = x.Description
-                })
-                .AsEnumerable();
+                });
+
             return products;
         }
     }

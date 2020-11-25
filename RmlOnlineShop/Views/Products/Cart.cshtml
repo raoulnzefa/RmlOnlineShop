@@ -8,7 +8,6 @@
 <div class="container">
     <h1>My Product Cart</h1>
     <hr />
-
     @if (Model == null)
     {
         <h2>Your cart is empty! Let's buy <a asp-action="Index"><i>something</i></a> right now</h2>
@@ -36,9 +35,10 @@
                 }
             </tbody>
         </table>
+
+        <hr />
+        <a asp-action="ClientCheckout" asp-controller="Products" class="add-to-cart-btn align-content-end">Checkout</a>
     }
-
-
 </div>
 
 
