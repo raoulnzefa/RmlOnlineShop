@@ -101,7 +101,7 @@ namespace RmlOnlineShop.Controllers
             clientLogic.SaveClientOrderInfo(HttpContext.Session,clientOrderInformatiomViewModel);
            
 
-            return RedirectToAction("Payment");
+            return RedirectToAction("Payment", "PaymentStripe");
         }
 
         public IActionResult Payment()
