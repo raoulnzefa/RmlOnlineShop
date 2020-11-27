@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RmlOnlineShop.Database.DatabaseContext;
 
 namespace RmlOnlineShop.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201127145356_Changed some names of models")]
+    partial class Changedsomenamesofmodels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -184,7 +186,7 @@ namespace RmlOnlineShop.Database.Migrations
                     b.Property<string>("OrderBuyerComment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OrderUniqueId")
+                    b.Property<string>("OrderUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostCode")

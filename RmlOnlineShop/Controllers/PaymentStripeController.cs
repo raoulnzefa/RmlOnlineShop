@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using RmlOnlineShop.Application.LogicServices.Interfaces;
+using RmlOnlineShop.Application.ViewModels;
 using Stripe;
 using Stripe.Checkout;
 
@@ -49,9 +50,10 @@ namespace RmlOnlineShop.Controllers
         }
 
         [HttpPost("checkout-session")]
-        public IActionResult CreateCheckoutSession()
+        public async Task<IActionResult> CreateCheckoutSession()
         {
             var products = cartLogic.GetProductInCartAsViewModel(HttpContext.Session);
+
             if (products==null)
             {
                 RedirectToAction("Index", "Products");
@@ -82,16 +84,37 @@ namespace RmlOnlineShop.Controllers
                             Name=product.ProductName,
                             Description=product.ProductDescription
                         },
-                        
                     },
                     Quantity=product.Quantity
                 });
             }
-           
-
 
             var service = new SessionService();
             Session session = service.Create(options);
+
+            var prodOrders = clientLogic.GetProductsAndOrderInfo(HttpContext.Session);
+
+            await clientLogic.SaveOrder(new OrderInfoViewModel
+            {
+                AddressPrimary = prodOrders.ClientOrderInformatiomViewModel.AddressPrimary,
+                AddressSecondary= prodOrders.ClientOrderInformatiomViewModel.AddressSecondary,
+                City= prodOrders.ClientOrderInformatiomViewModel.City,
+                Country= prodOrders.ClientOrderInformatiomViewModel.Country,
+                EmailCustomer= prodOrders.ClientOrderInformatiomViewModel.EmailCustomer,
+                FirstNameCustomer= prodOrders.ClientOrderInformatiomViewModel.FirstNameCustomer,
+                LastNameCustomer= prodOrders.ClientOrderInformatiomViewModel.LastNameCustomer,
+                OrderBuyerComment= prodOrders.ClientOrderInformatiomViewModel.OrderBuyerComment,
+                PostCode= prodOrders.ClientOrderInformatiomViewModel.PostCode,
+                Stocks= prodOrders.ProductsInCartViewModel.Select(x=> new StockMinViewModel
+                {
+                    Quantity=x.Quantity,
+                    StockId=x.StockId
+                }),
+                StripeOrderRef=session.ClientReferenceId
+            });
+
+
+
             return Json(new { id = session.Id });
         }
 

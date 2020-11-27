@@ -12,6 +12,5 @@ namespace RmlOnlineShop.Data.Models
         public decimal Price { get; set; }
 
         public ICollection<Stock> Stock { get; set; }
-        public ICollection<OrderProduct> OrderProducts { get; set; }
     }
 }

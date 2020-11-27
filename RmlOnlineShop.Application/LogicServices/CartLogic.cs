@@ -84,6 +84,7 @@ namespace RmlOnlineShop.Application.LogicServices
                 .Where(x => productsCartList.Any(stock => stock.StockId == x.Id))
                 .Select(x => new ProductsInCartViewModel
                 {
+                    StockId=x.Id,
                     ProductId = x.ProductId,
                     ProductDescription = x.Product.Description,
                     ProductName = x.Product.Name,

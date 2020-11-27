@@ -107,6 +107,7 @@ namespace RmlOnlineShop.Controllers
                 return View();
             }
 
+            
             clientLogic.SaveClientOrderInfo(HttpContext.Session, clientOrderInformatiomViewModel);
            
 

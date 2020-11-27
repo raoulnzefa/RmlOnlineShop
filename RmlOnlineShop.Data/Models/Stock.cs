@@ -11,5 +11,6 @@ namespace RmlOnlineShop.Data.Models
         public int Quantity { get; set; }
         public int ProductId { get; set; }
         public Product Product { get; set; }
+        public ICollection<OrderStock> OrderStocks { get; set; }
     }
 }
