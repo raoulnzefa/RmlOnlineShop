@@ -14,6 +14,7 @@ namespace RmlOnlineShop.Data.Models
         public string LastNameCustomer { get; set; }
         public string EmailCustomer { get; set; }
         public string ClientId { get; set; }
+        public string StripeRef { get; set; }
 
         // Address info
         public string AddressPrimary { get; set; }

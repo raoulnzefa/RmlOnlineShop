@@ -15,17 +15,17 @@ namespace RmlOnlineShop.Controllers
     {
         private readonly IConfiguration config;
         private readonly IClientLogic clientLogic;
-
+        private readonly ICartLogic cartLogic;
 
         public PaymentStripeController(
             IConfiguration config,
-            IClientLogic clientLogic
-
+            IClientLogic clientLogic,
+            ICartLogic cartLogic
             )
         {
             this.config = config;
             this.clientLogic = clientLogic;
-
+            this.cartLogic = cartLogic;
 
             StripeConfiguration.ApiKey = config.GetSection("Stripe")["SecretKey"];
 
@@ -51,33 +51,44 @@ namespace RmlOnlineShop.Controllers
         [HttpPost("checkout-session")]
         public IActionResult CreateCheckoutSession()
         {
+            var products = cartLogic.GetProductInCartAsViewModel(HttpContext.Session);
+            if (products==null)
+            {
+                RedirectToAction("Index", "Products");
+            }
+            
             var options = new SessionCreateOptions
             {
                 PaymentMethodTypes = new List<string>
                 {
                     "card",
                 },
-                LineItems = new List<SessionLineItemOptions>
-                {
-                    new SessionLineItemOptions
-                    {
-                        PriceData=new SessionLineItemPriceDataOptions
-                        {
-                            UnitAmountDecimal = 2000m,
-                            Currency="usd",
-                            ProductData=new SessionLineItemPriceDataProductDataOptions
-                            {
-                                Name="T-shirt",
-                            },
-
-                        },
-                        Quantity=1,
-                    },
-                },
+                
+                LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
                 SuccessUrl = "https://example.com/success",
                 CancelUrl = "https://example.com/cancel",
             };
+
+            foreach (var product in products)
+            {
+                options.LineItems.Add(new SessionLineItemOptions { 
+                    PriceData=new SessionLineItemPriceDataOptions
+                    {
+                        UnitAmountDecimal = product.ProductPrice * 100,
+                        Currency="rub",
+                        ProductData=new SessionLineItemPriceDataProductDataOptions
+                        {
+                            Name=product.ProductName,
+                            Description=product.ProductDescription
+                        },
+                        
+                    },
+                    Quantity=product.Quantity
+                });
+            }
+           
+
 
             var service = new SessionService();
             Session session = service.Create(options);

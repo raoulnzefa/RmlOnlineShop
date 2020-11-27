@@ -10,9 +10,14 @@ namespace RmlOnlineShop.Application.LogicServices
 {
     public class ClientLogic : IClientLogic
     {
-        public ClientLogic()
-        {
+        private readonly ICartLogic cartLogic;
 
+
+        public ClientLogic(
+            ICartLogic cartLogic
+            )
+        {
+            this.cartLogic = cartLogic;
         }
 
 
@@ -39,6 +44,26 @@ namespace RmlOnlineShop.Application.LogicServices
 
             session.SetString("ClientOrderInfo", clientInfo);
             return true;
+        }
+
+        public ProductsAndOrderInfoViewModel GetProductsAndOrderInfo(ISession session)
+        {
+            var productsInCart = cartLogic.GetProductInCartAsViewModel(session);
+            if (productsInCart==null)
+            {
+                return null;
+            }
+
+            var clientOrderInfo = GetClientOrderInfo(session);
+           
+
+            var ProductsAndClientOrderInfo = new ProductsAndOrderInfoViewModel
+            {
+                ClientOrderInformatiomViewModel=clientOrderInfo,
+                ProductsInCartViewModel=productsInCart
+            };
+
+            return ProductsAndClientOrderInfo;
         }
     }
 

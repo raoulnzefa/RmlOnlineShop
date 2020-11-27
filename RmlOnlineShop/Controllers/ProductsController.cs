@@ -80,14 +80,23 @@ namespace RmlOnlineShop.Controllers
             return View(productsInCartViewModel);
         }
 
+        [HttpGet]
+        public IActionResult Conditions()
+        {
+            return View();
+        }
 
         [HttpGet]
         public IActionResult ClientCheckout()
         {
-            var clientOrderInfo = clientLogic.GetClientOrderInfo(HttpContext.Session);
-            
+            var ProductsAndClientOrderInfo = clientLogic.GetProductsAndOrderInfo(HttpContext.Session);
 
-            return View(clientOrderInfo);
+            if (ProductsAndClientOrderInfo == null)
+            {
+                return RedirectToAction("Index", "Products");
+            }
+
+            return View(ProductsAndClientOrderInfo);
         }
 
         [HttpPost]
@@ -98,7 +107,7 @@ namespace RmlOnlineShop.Controllers
                 return View();
             }
 
-            clientLogic.SaveClientOrderInfo(HttpContext.Session,clientOrderInformatiomViewModel);
+            clientLogic.SaveClientOrderInfo(HttpContext.Session, clientOrderInformatiomViewModel);
            
 
             return RedirectToAction("Payment", "PaymentStripe");

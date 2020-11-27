@@ -2,7 +2,7 @@
     ViewData["Title"] = "Checkout";
 }
 
-@model ClientOrderInformatiomViewModel
+@model ProductsAndOrderInfoViewModel
 
 <form asp-action="ClientCheckout">
     <div class="col-md-7">
@@ -13,55 +13,55 @@
                 <h3 class="title">Shiping address</h3>
             </div>
             <div class="form-group">
-                <label asp-for="FirstNameCustomer"></label>
-                <input class="input" asp-for="FirstNameCustomer">
-                <span asp-validation-for="FirstNameCustomer"></span>
+                <label asp-for="ClientOrderInformatiomViewModel.FirstNameCustomer"></label>
+                <input class="input" asp-for="ClientOrderInformatiomViewModel.FirstNameCustomer">
+                <span asp-validation-for="ClientOrderInformatiomViewModel.FirstNameCustomer"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastNameCustomer"></label>
-                <input class="input" asp-for="LastNameCustomer">
-                <span asp-validation-for="LastNameCustomer"></span>
+                <label asp-for="ClientOrderInformatiomViewModel.LastNameCustomer"></label>
+                <input class="input" asp-for="ClientOrderInformatiomViewModel.LastNameCustomer">
+                <span asp-validation-for="ClientOrderInformatiomViewModel.LastNameCustomer"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EmailCustomer"></label>
-                <input class="input" asp-for="EmailCustomer">
-                <span asp-validation-for="EmailCustomer"></span>
+                <label asp-for="ClientOrderInformatiomViewModel.EmailCustomer"></label>
+                <input class="input" asp-for="ClientOrderInformatiomViewModel.EmailCustomer">
+                <span asp-validation-for="ClientOrderInformatiomViewModel.EmailCustomer"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AddressPrimary"></label>
-                <input class="input" asp-for="AddressPrimary">
-                <span asp-validation-for="AddressPrimary"></span>
+                <label asp-for="ClientOrderInformatiomViewModel.AddressPrimary"></label>
+                <input class="input" asp-for="ClientOrderInformatiomViewModel.AddressPrimary">
+                <span asp-validation-for="ClientOrderInformatiomViewModel.AddressPrimary"></span>
 
             </div>
             <div class="form-group">
-                <label asp-for="AddressSecondary"></label>
-                <input class="input" asp-for="AddressSecondary">
-                <span asp-validation-for="AddressSecondary"></span>
+                <label asp-for="ClientOrderInformatiomViewModel.AddressSecondary"></label>
+                <input class="input" asp-for="ClientOrderInformatiomViewModel.AddressSecondary">
+                <span asp-validation-for="ClientOrderInformatiomViewModel.AddressSecondary"></span>
             </div>
             <div class="form-group">
-                <label asp-for="City"></label>
-                <input class="input" asp-for="City">
-                <span asp-validation-for="City"></span>
+                <label asp-for="ClientOrderInformatiomViewModel.City"></label>
+                <input class="input" asp-for="ClientOrderInformatiomViewModel.City">
+                <span asp-validation-for="ClientOrderInformatiomViewModel.City"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Country"></label>
-                <input class="input" asp-for="Country">
-                <span asp-validation-for="Country"></span>
+                <label asp-for="ClientOrderInformatiomViewModel.Country"></label>
+                <input class="input" asp-for="ClientOrderInformatiomViewModel.Country">
+                <span asp-validation-for="ClientOrderInformatiomViewModel.Country"></span>
 
             </div>
             <div class="form-group">
-                <label asp-for="PostCode"></label>
-                <input class="input" asp-for="PostCode">
-                <span asp-validation-for="PostCode"></span>
+                <label asp-for="ClientOrderInformatiomViewModel.PostCode"></label>
+                <input class="input" asp-for="ClientOrderInformatiomViewModel.PostCode">
+                <span asp-validation-for="ClientOrderInformatiomViewModel.PostCode"></span>
             </div>
 
         </div>
         <!-- /Billing Details -->
         <!-- Order notes -->
         <div class="order-notes">
-            <label asp-for="OrderBuyerComment"></label>
-            <textarea class="input" asp-for="OrderBuyerComment"></textarea>
-            <span asp-validation-for="OrderBuyerComment"></span>
+            <label asp-for="ClientOrderInformatiomViewModel.OrderBuyerComment"></label>
+            <textarea class="input" asp-for="ClientOrderInformatiomViewModel.OrderBuyerComment"></textarea>
+            <span asp-validation-for="ClientOrderInformatiomViewModel.OrderBuyerComment"></span>
         </div>
         <!-- /Order notes -->
     </div>
@@ -77,14 +77,14 @@
                 <div><strong>TOTAL</strong></div>
             </div>
             <div class="order-products">
-                <div class="order-col">
-                    <div>1x Product Name Goes Here</div>
-                    <div>$980.00</div>
-                </div>
-                <div class="order-col">
-                    <div>2x Product Name Goes Here</div>
-                    <div>$980.00</div>
-                </div>
+                @foreach (var product in Model.ProductsInCartViewModel)
+                {
+                    <div class="order-col">
+                        <div>@(product.Quantity)x @(product.ProductName)</div>
+                        <div>RUB @(product.Quantity * product.ProductPrice)</div>
+                    </div>
+                }
+
             </div>
             <div class="order-col">
                 <div>Shiping</div>
@@ -92,46 +92,15 @@
             </div>
             <div class="order-col">
                 <div><strong>TOTAL</strong></div>
-                <div><strong class="order-total">$2940.00</strong></div>
+                <div><strong class="order-total">RUB @Model.ProductsInCartViewModel.Sum(x=>x.ProductPrice * x.Quantity)</strong></div>
             </div>
         </div>
-        <div class="payment-method">
-            <div class="input-radio">
-                <input type="radio" name="payment" id="payment-1">
-                <label for="payment-1">
-                    <span></span>
-                    Direct Bank Transfer
-                </label>
-                <div class="caption">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>
-            </div>
-            <div class="input-radio">
-                <input type="radio" name="payment" id="payment-2">
-                <label for="payment-2">
-                    <span></span>
-                    Cheque Payment
-                </label>
-                <div class="caption">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>
-            </div>
-            <div class="input-radio">
-                <input type="radio" name="payment" id="payment-3">
-                <label for="payment-3">
-                    <span></span>
-                    Paypal System
-                </label>
-                <div class="caption">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>
-            </div>
-        </div>
+        
         <div class="input-checkbox">
             <input type="checkbox" id="terms">
             <label for="terms">
                 <span></span>
-                I've read and accept the <a href="#">terms & conditions</a>
+                I've checked and agreed with <a asp-action="Conditions" style="text-decoration:underline">conditions of the store</a>
             </label>
         </div>
         <button type="submit" class="primary-btn order-submit">Place order</button>
