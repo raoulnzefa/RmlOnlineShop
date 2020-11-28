@@ -13,5 +13,6 @@ namespace RmlOnlineShop.Application.LogicServices.Interfaces
         bool SaveClientOrderInfo(ISession session, ClientOrderInformatiomViewModel clientOrderInformatiomViewModel);
         ProductsAndOrderInfoViewModel GetProductsAndOrderInfo(ISession session);
         Task<bool> SaveOrder(OrderInfoViewModel orderInfoViewModel);
+        OrderInfoFullViewModel GetOrderByUniqueId(string uniqueId);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using RmlOnlineShop.Application.LogicServices.Interfaces;
 using RmlOnlineShop.Application.ViewModels;
@@ -72,6 +73,43 @@ namespace RmlOnlineShop.Application.LogicServices
             return ProductsAndClientOrderInfo;
         }
          
+        public OrderInfoFullViewModel GetOrderByUniqueId(string uniqueId)
+        {
+            var order = applicationDbContext.Orders
+                .Where(x => x.OrderUniqueId == uniqueId)
+                    .Include(x => x.OrderStocks)
+                        .ThenInclude(x => x.Stock)
+                            .ThenInclude(x => x.Product)
+                .Select(x => new OrderInfoFullViewModel
+                {
+                    OrderUniqueId= x.OrderUniqueId,
+                    AddressPrimary=x.AddressPrimary,
+                    AddressSecondary=x.AddressSecondary,
+                    City=x.City,
+                    ClientId=x.ClientId,
+                    Country=x.Country,
+                    EmailCustomer=x.EmailCustomer,
+                    FirstNameCustomer=x.FirstNameCustomer,
+                    LastNameCustomer=x.LastNameCustomer,
+                    OrderBuyerComment=x.OrderBuyerComment,
+                    PostCode=x.PostCode,
+                    ProductsOrderInfo=x.OrderStocks.Select(s=>new ProductOrderInfoViewModel
+                    {
+                        Name=s.Stock.Product.Name,
+                        Price=s.Stock.Product.Price,
+                        ProductDescription=s.Stock.Product.Description,
+                        Quantity=s.Quantity,
+                        StockDescription=s.Stock.Description
+                    })
+                 
+                })
+                .FirstOrDefault();
+
+            return order;
+
+        }
+
+
         public async Task<bool> SaveOrder(OrderInfoViewModel orderInfoViewModel)
         {
             if (orderInfoViewModel==null)
@@ -79,6 +117,16 @@ namespace RmlOnlineShop.Application.LogicServices
                 return false;
             }
 
+            // Subtract the order quantity from stocks
+            var stocks = applicationDbContext.Stocks
+                .Where(x => orderInfoViewModel.Stocks.Select(y => y.StockId).Contains(x.Id))
+                .AsEnumerable();
+
+            foreach (var stock in stocks)
+            {
+                stock.Quantity -= orderInfoViewModel.Stocks.FirstOrDefault(x => x.StockId == stock.Id).Quantity;
+            }
+      
 
             Order order = new Order
             {
@@ -98,7 +146,7 @@ namespace RmlOnlineShop.Application.LogicServices
                     StockId = x.StockId,
                     Quantity = x.Quantity
                 }).ToList(),
-                OrderUniqueId = GenerateOrderUniqueId(orderInfoViewModel.ClientId),
+                OrderUniqueId = GenerateOrderUniqueId(DateTime.Now.ToString("dd:mm")),
             };
 
             applicationDbContext.Orders.Add(order);
@@ -109,7 +157,8 @@ namespace RmlOnlineShop.Application.LogicServices
         private string GenerateOrderUniqueId(string id)
         {
             Guid guid = Guid.NewGuid();
-            return Convert.ToBase64String(guid.ToByteArray()) + id;
+            var s = Convert.ToBase64String(guid.ToByteArray()).Replace("+", "s");
+            return s + id;
         }
 
     }

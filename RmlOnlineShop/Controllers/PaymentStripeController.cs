@@ -91,7 +91,7 @@ namespace RmlOnlineShop.Controllers
 
             var service = new SessionService();
             Session session = service.Create(options);
-
+            
             var prodOrders = clientLogic.GetProductsAndOrderInfo(HttpContext.Session);
 
             await clientLogic.SaveOrder(new OrderInfoViewModel

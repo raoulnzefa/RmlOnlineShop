@@ -1,0 +1,36 @@
+﻿@{ 
+    ViewData["Title"] = "Order";
+}
+
+@model OrderInfoFullViewModel
+
+<div class="container">
+    <h1>Order for @Model.FirstNameCustomer @Model.LastNameCustomer</h1>
+
+    <hr />
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var product in Model.ProductsOrderInfo)
+            {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.ProductDescription</td>
+                <td>@product.Price</td>
+                <td>@product.Quantity</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <hr />
+
+</div>

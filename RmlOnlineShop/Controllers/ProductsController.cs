@@ -126,6 +126,23 @@ namespace RmlOnlineShop.Controllers
             return View();
         }
 
+        public IActionResult Order(string orderId)
+        {
+            if (string.IsNullOrEmpty(orderId))
+            {
+                return NotFound(orderId);
+
+            }
+
+            var order = clientLogic.GetOrderByUniqueId(orderId);
+
+            if (order==null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
+        }
 
     }
 }
