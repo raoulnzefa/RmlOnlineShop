@@ -4,13 +4,14 @@ using RmlOnlineShop.Application.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RmlOnlineShop.Application.LogicServices.Interfaces
 {
     public interface ICartLogic
     {
         IEnumerable<ProductsInCartViewModel> GetProductInCartAsViewModel(ISession session);
-        bool AddToCart(ISession session, ProductCart productCart);
+        Task<bool> AddToCart(ISession session, ProductCart productCart);
         List<ProductCart> GetCart(ISession session);
     }
 }

@@ -13,6 +13,7 @@ using RmlOnlineShop.Data.Models;
 using RmlOnlineShop.Database.DatabaseContext;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace RmlOnlineShop.Application.LogicServices
 {
@@ -20,12 +21,15 @@ namespace RmlOnlineShop.Application.LogicServices
     {
 
         private readonly ApplicationDbContext applicationDbContext;
-       
+        private readonly IConfiguration configuration;
+
         public CartLogic(
-            ApplicationDbContext applicationDbContext
+            ApplicationDbContext applicationDbContext,
+            IConfiguration configuration
             )
         {
             this.applicationDbContext = applicationDbContext;
+            this.configuration = configuration;
         }
 
 
@@ -40,12 +44,39 @@ namespace RmlOnlineShop.Application.LogicServices
             return JsonConvert.DeserializeObject<List<ProductCart>>(cartString);
         }
 
-        public bool AddToCart(ISession session,ProductCart productCart)
+        public async Task<bool> AddToCart(ISession session,ProductCart productCart)
         {
             if (productCart == null)
             {
                 return false;
             }
+
+            var reservedStock = applicationDbContext.Stocks
+                .FirstOrDefault(x => x.Id == productCart.StockId);
+
+            if (reservedStock==null)
+            {
+                return false;
+            }
+
+            if (reservedStock.Quantity < productCart.Quantity)
+            {
+                return false;
+            }
+            
+            applicationDbContext.stocksReservedOnOrder.Add(new StockReservedOnOrder
+            {
+                QuantitySaved = productCart.Quantity,
+                StockId = productCart.StockId,
+                HoldUntillDate = DateTime.Now.AddMinutes(60.0)
+            });
+
+            reservedStock.Quantity -= productCart.Quantity;
+
+
+            await applicationDbContext.SaveChangesAsync();
+
+
             var cartString = session.GetString("cart");
             var cartList = new List<ProductCart>();
 
@@ -53,6 +84,7 @@ namespace RmlOnlineShop.Application.LogicServices
             {
                 cartList = JsonConvert.DeserializeObject<List<ProductCart>>(cartString);
             }
+
 
             if (cartList.Any(x => x.StockId == productCart.StockId))
             {
@@ -62,6 +94,8 @@ namespace RmlOnlineShop.Application.LogicServices
             {
                 cartList.Add(productCart);
             }
+
+
 
             cartString = JsonConvert.SerializeObject(cartList);
             session.SetString("cart", cartString);

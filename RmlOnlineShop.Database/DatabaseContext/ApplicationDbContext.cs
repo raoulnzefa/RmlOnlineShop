@@ -14,7 +14,7 @@ namespace RmlOnlineShop.Database.DatabaseContext
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderStock> OrderStocks { get; set; }
         public DbSet<Stock> Stocks { get; set; }
-
+        public DbSet<StockReservedOnOrder> stocksReservedOnOrder { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> dbContextOptions)
             :base(dbContextOptions)

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RmlOnlineShop.Data.Models
 {
-    public class StockSavedOnOrder
+    public class StockReservedOnOrder
     {
         public int Id { get; set; }
         public int StockId { get; set; }

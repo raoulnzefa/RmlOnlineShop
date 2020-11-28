@@ -151,12 +151,33 @@ namespace RmlOnlineShop.Application.DataServices
             return applicationDbContext.Products.FirstOrDefault(x=>x.Id==id);
         }
 
-        public ProductWithStocksViewModel GetProductViewModelById(int id)
+        public async Task<ProductWithStocksViewModel> GetProductViewModelById(int id)
         {
             if (id<0)
             {
                 return null;
             }
+
+            // Check if some of reserved stocks has been expired and return back to stock
+            var stocksReserved = applicationDbContext.stocksReservedOnOrder
+                .Where(x => x.HoldUntillDate < DateTime.Now)
+                .AsEnumerable();
+            if (stocksReserved.Count() > 0)
+            {
+                var stocks = applicationDbContext.Stocks.Where(x => stocksReserved.Select(y => y.StockId).Contains(x.Id))
+                    .AsEnumerable();
+
+                foreach (var stock in stocks)
+                {
+                    stock.Quantity += stocksReserved.FirstOrDefault(x => x.StockId == stock.Id).QuantitySaved;
+                }
+
+                applicationDbContext.stocksReservedOnOrder.RemoveRange(stocksReserved);
+
+                await applicationDbContext.SaveChangesAsync();
+            }
+
+
 
             return applicationDbContext.Products
                 .Include(x=>x.Stock)

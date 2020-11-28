@@ -44,9 +44,9 @@ namespace RmlOnlineShop.Controllers
         }
 
         [HttpGet]
-        public IActionResult Product(int id)
+        public async Task<IActionResult> Product(int id)
         {
-            var product = productManager.GetProductViewModelById(id);
+            var product = await productManager.GetProductViewModelById(id);
             if (product == null)
             {
                 return NotFound();
@@ -55,14 +55,14 @@ namespace RmlOnlineShop.Controllers
         }
 
         [HttpPost]
-        public IActionResult ProductToCart(ProductCart productCart)
+        public async Task<IActionResult> ProductToCart(ProductCart productCart)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            var res = cartLogic.AddToCart(HttpContext.Session, productCart);
+            var res = await cartLogic.AddToCart(HttpContext.Session, productCart);
             if (!res)
             {
                 return BadRequest();
