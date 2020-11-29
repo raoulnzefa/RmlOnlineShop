@@ -153,7 +153,7 @@ namespace RmlOnlineShop.Application.DataServices
 
         public async Task<ProductWithStocksViewModel> GetProductViewModelById(int id)
         {
-            if (id<0)
+            if (id < 0)
             {
                 return null;
             }

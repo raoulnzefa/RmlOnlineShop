@@ -27,7 +27,6 @@ namespace RmlOnlineShop
             services.AddDefaultServiceSetup(Configuration);
             services.AddCustomServices(Configuration);
             
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +49,7 @@ namespace RmlOnlineShop
             
             app.UseSession();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

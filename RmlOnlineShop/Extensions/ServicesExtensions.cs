@@ -29,9 +29,20 @@ namespace RmlOnlineShop.Extensions
                 );
 
             // Add Identity
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(o=> 
+            {
+                o.User.RequireUniqueEmail = true;
+                o.Password.RequireNonAlphanumeric = false;
+                o.Password.RequireUppercase = false;
+                o.Password.RequireDigit = false;
+            })
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddAuthorization(opt => {
+                opt.AddPolicy("Admin", policy => policy.RequireClaim("Role", "Admin"));
+                opt.AddPolicy("User", policy => policy.RequireClaim("Role", "User"));
+            });
+            
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
             services.AddSession(options =>

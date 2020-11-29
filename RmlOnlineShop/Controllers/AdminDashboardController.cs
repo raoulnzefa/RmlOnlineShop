@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RmlOnlineShop.Application.DataServices;
 using RmlOnlineShop.Application.DataServices.Interfaces;
@@ -11,6 +12,7 @@ using RmlOnlineShop.Application.ViewModels;
 namespace RmlOnlineShop.Controllers
 {
     
+    [Authorize(Policy ="Admin")]
     public class AdminDashboardController : Controller
     {
         private readonly IProductManager productManager;

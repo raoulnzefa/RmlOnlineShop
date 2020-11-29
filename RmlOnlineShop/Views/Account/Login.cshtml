@@ -1,0 +1,47 @@
+﻿@{ 
+    ViewData["Title"] = "Login";
+}
+
+@model LoginViewModel
+
+<head>
+    <style>
+        div.form-row div span{
+            color:red;
+        }
+    </style>
+</head>
+
+
+<div class="container">
+    <h1>Login</h1>
+    <hr />
+    <form asp-action="Login" asp-controller="Account">
+        <div asp-validation-summary="All"></div>
+        <div class="form-row">
+            <div class="form-group col-md-6 mb-3">
+                <label asp-for="UserName"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6 mb-3">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password"></span>
+            </div>
+        </div>
+        <div class="form-group form-check">
+                <input asp-for="IsStaySignIn" id="stayLogedInCheck" />
+                <label class="form-check-label" for="stayLogedInCheck">Stay Logged in?</label>
+        </div>
+        <button class="btn btn-primary" type="submit">Loggin</button>
+    </form>
+</div>
+
+@section Scripts{ 
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
+

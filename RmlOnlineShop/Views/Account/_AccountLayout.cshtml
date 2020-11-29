@@ -1,7 +1,4 @@
-﻿
-@inject Microsoft.AspNetCore.Authorization.IAuthorizationService authService
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -30,36 +27,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @if ((await authService.AuthorizeAsync(User, null, "Admin")).Succeeded)
-                        {
-                            <li>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="AdminDashboard" asp-action="Index">Admin</a>
-                            </li>
-                        }
-
-
+                        <li>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="AdminDashboard" asp-action="Index">Admin</a>
+                        </li>
                         <li>
                             <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Store</a>
                         </li>
-                        @if (!User.Identity.IsAuthenticated)
-                        {
-                            <li>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-                            </li>
-                            <li>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-                            </li>
-                        }
-
-
-
-
                     </ul>
                 </div>
             </div>
@@ -74,7 +47,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - RmlOnlineShop - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - RmlOnlineShop
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
