@@ -117,16 +117,12 @@ namespace RmlOnlineShop.Application.LogicServices
                 return false;
             }
 
-            // Subtract the order quantity from stocks
-            var stocks = applicationDbContext.Stocks
-                .Where(x => orderInfoViewModel.Stocks.Select(y => y.StockId).Contains(x.Id))
+            // Delete all reserved stocks since we made the order
+            var reservedStocks = applicationDbContext.stocksReservedOnOrder
+                .Where(x => x.SessionId == orderInfoViewModel.SessionId)
                 .AsEnumerable();
 
-            foreach (var stock in stocks)
-            {
-                stock.Quantity -= orderInfoViewModel.Stocks.FirstOrDefault(x => x.StockId == stock.Id).Quantity;
-            }
-      
+            applicationDbContext.stocksReservedOnOrder.RemoveRange(reservedStocks);
 
             Order order = new Order
             {
@@ -146,7 +142,7 @@ namespace RmlOnlineShop.Application.LogicServices
                     StockId = x.StockId,
                     Quantity = x.Quantity
                 }).ToList(),
-                OrderUniqueId = GenerateOrderUniqueId(DateTime.Now.ToString("dd:mm")),
+                OrderUniqueId = GenerateOrderUniqueId(DateTime.Now.ToString("dd:mm"))
             };
 
             applicationDbContext.Orders.Add(order);

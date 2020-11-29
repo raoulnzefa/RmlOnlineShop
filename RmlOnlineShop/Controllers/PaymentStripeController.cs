@@ -110,7 +110,8 @@ namespace RmlOnlineShop.Controllers
                     Quantity=x.Quantity,
                     StockId=x.StockId
                 }),
-                StripeOrderRef=session.ClientReferenceId
+                StripeOrderRef=session.ClientReferenceId,
+                SessionId=HttpContext.Session.Id
             });
 
 

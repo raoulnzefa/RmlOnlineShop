@@ -12,5 +12,6 @@ namespace RmlOnlineShop.Data.Models
 
         public int QuantitySaved { get; set; }
         public DateTime HoldUntillDate { get; set; }
+        public string SessionId { get; set; }
     }
 }

@@ -14,6 +14,7 @@ namespace RmlOnlineShop.Application.ViewModels
         public string EmailCustomer { get; set; }
 
         public string ClientId { get; set; }
+        public string SessionId { get; set; }
 
      
         public string AddressPrimary { get; set; }

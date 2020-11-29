@@ -54,6 +54,15 @@ namespace RmlOnlineShop.Application.LogicServices
             var reservedStock = applicationDbContext.Stocks
                 .FirstOrDefault(x => x.Id == productCart.StockId);
 
+            var reservedStocksToUpdate = applicationDbContext.stocksReservedOnOrder
+                .Where(x => x.SessionId == session.Id)
+                .AsEnumerable();
+
+            foreach (var stock in reservedStocksToUpdate)
+            {
+                stock.HoldUntillDate = DateTime.Now.AddMinutes(60.0);
+            }
+            
             if (reservedStock==null)
             {
                 return false;
@@ -68,7 +77,8 @@ namespace RmlOnlineShop.Application.LogicServices
             {
                 QuantitySaved = productCart.Quantity,
                 StockId = productCart.StockId,
-                HoldUntillDate = DateTime.Now.AddMinutes(60.0)
+                HoldUntillDate = DateTime.Now.AddMinutes(60.0),
+                SessionId=session.Id
             });
 
             reservedStock.Quantity -= productCart.Quantity;
