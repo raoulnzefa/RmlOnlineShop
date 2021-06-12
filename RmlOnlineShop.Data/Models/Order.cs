@@ -15,6 +15,8 @@ namespace RmlOnlineShop.Data.Models
         public string EmailCustomer { get; set; }
         public string ClientId { get; set; }
         public string StripeRef { get; set; }
+        public DateTime OrderDate { get; set; }
+        public string OrderStatus { get; set; }
 
         // Address info
         public string AddressPrimary { get; set; }
@@ -26,4 +28,5 @@ namespace RmlOnlineShop.Data.Models
         public string OrderBuyerComment { get; set; }
         public ICollection<OrderStock> OrderStocks { get; set; }
     }
+
 }

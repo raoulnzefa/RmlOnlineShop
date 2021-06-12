@@ -46,6 +46,12 @@ namespace RmlOnlineShop.Controllers
             return View();
         }
 
+        public IActionResult Users()
+        {
+            return View();
+        }
+
+
         #region REST_ACTIONS
         #region STOCK_ACTIONS
 

@@ -137,6 +137,8 @@ namespace RmlOnlineShop.Application.LogicServices
                 OrderBuyerComment = orderInfoViewModel.OrderBuyerComment,
                 PostCode = orderInfoViewModel.PostCode,
                 StripeRef = orderInfoViewModel.StripeOrderRef,
+                OrderDate=DateTime.Now,
+                OrderStatus="Waiting",
                 OrderStocks = orderInfoViewModel.Stocks.Select(x => new OrderStock
                 {
                     StockId = x.StockId,
